@@ -1,0 +1,16 @@
+<html> 
+<head>
+	<title>TestHTMLLocationFunctionality</title>
+</head>
+<script> 
+function getLocation(){alert('gettinglocation'); navigator.geolocation.getCurrentPosition(getPosition);
+} 
+function getPosition(position){document.getElementById('showLocation').innerHTML="Latitude:"+position.coords.latitude+ "<br>Longitude:"+position.coords.longitude; } 
+</script>
+ </head> 
+
+ <body> 
+ <b>This code will display your current location</b> 
+<div id='showLocation'>Locationwillbedisplayedhere</div>
+<button id='getLocation'onclick='getLocation()'>Click Me to Get Your Location</button> 
+</body>
