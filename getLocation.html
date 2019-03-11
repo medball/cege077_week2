@@ -2,11 +2,16 @@
 <head>
 	<title>TestHTMLLocationFunctionality</title>
 </head>
-<script> 
-function getLocation(){alert('gettinglocation'); navigator.geolocation.getCurrentPosition(getPosition);
-} 
-function getPosition(position){document.getElementById('showLocation').innerHTML="Latitude:"+position.coords.latitude+ "<br>Longitude:"+position.coords.longitude; } 
-</script>
+	<script> 
+	function getLocation(){
+		alert('gettinglocation');
+		navigator.geolocation.getCurrentPosition(getPosition);
+	} 
+	function getPosition(position){
+		document.getElementById('showLocation').innerHTML="Latitude:"+position.coords.latitude+ "<br>Longitude:"+position.coords.longitude;
+
+	} 
+	</script>
  </head> 
 
  <body> 
