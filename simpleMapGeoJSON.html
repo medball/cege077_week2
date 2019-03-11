@@ -46,6 +46,23 @@ var geojsonFeature = {
 // add the feature to the map
 L.geoJSON(geojsonFeature).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+" "+geojsonFeature.properties.popupContent+"<b>");
 
+//code to add a 'listening' location popup
+
+var popup = l.popup();
+
+//create an event detecror to wait for the user's click event and then use the popup to show them where they clicked
+
+function onMapClick(e){
+	popup
+		.setLatLng(e.latlng)
+		.setContent("Click location"+elatlng.toString())
+		.openOn(mymap)
+}
+
+
+//add the click events detector to map
+mymap.on('click', onMapClick);
+
 </script>
 </body>
 </html>
