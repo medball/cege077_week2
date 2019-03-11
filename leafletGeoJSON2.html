@@ -2,20 +2,69 @@
 <head>
 <title>Leaflet and GeoJSON</title>
 <!-- the following links add the CSS and Javascript required for the Leaflet Map -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
-integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
-crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
-integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
-crossorigin=""></script>
-<!-- the following CSS is used to set the size of the Map -->
-<style type="text/css">
-#mapid { height: 180px; }
-</style>
-<!-- the following links incorporates the CSS required for custom icon creation -->
-<link rel="stylesheet" href="ionicons.min.css">
-<link rel="stylesheet" href="leaflet.awesome-markers.css">
-<script src="leaflet.awesome-markers.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
+	integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
+	crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
+	integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
+	crossorigin=""></script>
+	<!-- the following CSS is used to set the size of the Map -->
+	<style type="text/css">
+	#mapid { height: 180px; }
+	</style>
+	<script>
+		//global variable to gold XMLHttpRequest()
+		var client;
+
+		var earthquakelayer;
+
+		//function to request earthquake layer
+		function getEarthquakes(){
+			client = new XMLHttpRequest();
+
+
+			client.open('GET','https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson');
+			client.onreadystatechange = earthquakeResponse; //no brackets
+			client.send();
+		}
+
+		//function to wait for response from the data server and pocess the response once it's recieved
+		function earthquakeResponse(){
+			//listens out for the server to say the data is ready (state 4)
+			if(client.readyState == 4){
+			//process the data
+			var earthquakedata = client.responseText;
+			Loadearthquakelayer(earthquakedata);
+			}
+
+		}
+
+	//global variable to hold the layer for later use
+	var earthquakelayer;
+
+	//convert the recieved data from text into JSON and add it to the map
+
+	function loadEarthquakelayer(earthquakedata){
+		//text to JSON
+		var earthquakejson = JSON.parse(earthquakedata);
+
+		//add JSON layer to the map - default icons initially
+		earthquakelayer = l.geoJson(earthquakedata);
+
+		//change the map zoom so all the data is shown
+		mymap.fitBounds(earthquakelayer.getBounds());
+
+	}
+
+
+			
+	</script>
+
+
+	<!-- the following links incorporates the CSS required for custom icon creation -->
+	<link rel="stylesheet" href="ionicons.min.css">
+	<link rel="stylesheet" href="leaflet.awesome-markers.css">
+	<script src="leaflet.awesome-markers.js"></script>
 </head>
 <body>
 <!-- the mapid div will hold the map -->
@@ -33,6 +82,11 @@ attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</
 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 id: 'mapbox.streets'
 }).addTo(mymap);
+
+//script to add to load the map data after the page has loaded (asynchronous)
+document.addEventListener('DOMContentLoaded', function(){
+	getEarthquakes();
+}, false);
 
 
 
