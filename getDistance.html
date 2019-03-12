@@ -10,8 +10,8 @@ function getDistance(){
 function getDistanceFromPoint(position){
 	
 	//these are the coordinates for Senate House
-	var lat = 51.521043
-	var lng = -0.128735
+	var lat = 52.342615
+	var lng = -0.113010
 	// return the distance in kilometers 
 	var distance = calculateDistance(position.coords.latitude, position.coords.longitude,lat,lng,'K');
 	document.getElementById('showDistance').innerHTML = "Distance: " + distance;
@@ -35,7 +35,7 @@ function calculateDistance(lat1,lon1,lat2,lon2,unit){
 </script>
 </head>
 <body>
-	<b> This code will display your Distance to Senate House</b>
+	<b> This code will display your Distance to Home</b>
 	<div id= 'showDistance'>Distance will be displayed here</div>
 	<button id = 'getDistance' onclick=getDistance()>Click Me to Calculate Distance</button>
 </body>
